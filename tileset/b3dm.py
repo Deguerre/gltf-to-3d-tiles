@@ -7,6 +7,7 @@ class B3dm(Content):
 
     def __init__(self, *args, batch_data=None, **kwargs) -> None:
         super(B3dm, self).__init__(*args, **kwargs)
+        print("Batch data for ", self._name, " is ", batch_data)
         if batch_data is not None:
             self.__batch_data = [batch_data]
         else:

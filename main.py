@@ -23,7 +23,7 @@ def tileset(
             ),
         measure: Measure = typer.Option(
             Measure.METER, help="measure of attributes in gltf buffers"),
-        batch_data: Measure = typer.Option(
+        batch_data: str = typer.Option(
             None, help="JSON file containing batch data"),
         up_direction: Axis = typer.Option(Axis.Y, "--up", help="up direction used in gltf coordinate system")):
     """split gltf model to 3d tiles"""

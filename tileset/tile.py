@@ -149,6 +149,7 @@ class Tile:
             return I3dm(str(self.__content_id),
                         self.__gltf, self.__content_matrices, extras=self.__extras)
         else:
+            print("content id ", str(self.__content_id), " batch data ", self.__batch_data)
             return B3dm(str(self.__content_id), self.__gltf, extras=self.__extras, batch_data=self.__batch_data)
 
     @property

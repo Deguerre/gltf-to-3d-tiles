@@ -121,7 +121,6 @@ class Tile:
         self.__gltf = gltf
         self.__extras = extras
         self.__name = name
-        print("Building tile ", name);
         self.__batch_data = Tile.BATCH_DATA.get(name, None)
         # self.__parse_children()
 

@@ -32,11 +32,13 @@ def tileset(
     if batch_data is not None:
         with open(batch_data, encoding='utf-8') as f:
             batch_data_table = json.load(f)
+    else:
+        batch_data_table = None
 
     if not fout:
         fout = Path(fin).parent / "tileset.json"
 
-    gltf_to_tileset(fin, fout, measure, up_direction, batch_data)
+    gltf_to_tileset(fin, fout, measure, up_direction, batch_data_table)
     end = timeit.default_timer()
     typer.echo(f"completed in: {end - start}s")
 

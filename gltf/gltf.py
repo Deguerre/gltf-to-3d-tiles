@@ -29,7 +29,7 @@ class Gltf(Element):
             name = "Scene"
         self.scenes = [Element(nodes=[0], name=name)]
         self.scene = 0
-        self.nodes = [Element(mesh=0, matrix=Z_UP_TO_Y_UP_MATRIX)
+        self.nodes = [Element(mesh=0, matrix=Z_UP_TO_Y_UP_MATRIX)]
 
         super().__init__(False, **kwargs)
 

@@ -24,7 +24,9 @@ class B3dm(Content):
 
     def _batch_json(self):
         batch_json_data = super(B3dm,self)._batch_json()
+        print("Adding batch json data to ", self.name)
         for key, value in self.__batch_data:
+            print("  Adding ", key)
             batch_json_data[key] = [value]
         return batch_json_data
 

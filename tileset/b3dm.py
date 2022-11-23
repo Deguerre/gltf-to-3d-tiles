@@ -8,9 +8,10 @@ class B3dm(Content):
     def __init__(self, *args, batch_data=None, **kwargs) -> None:
         super(B3dm, self).__init__(*args, **kwargs)
         if batch_data is not None:
-            self.__batch_data = [batch_data]
+            print("Batch data is ", batch_data)
+            self.__batch_data = batch_data
         else:
-            self.__batch_data = []
+            self.__batch_data = None
 
     def _magic(self):
         return B3dm.__MAGIC
@@ -24,8 +25,17 @@ class B3dm(Content):
 
     def _batch_json(self):
         batch_json_data = super(B3dm,self)._batch_json()
-        for key, value in self.__batch_data:
-            batch_json_data[key] = [value]
+        keys = {}
+        for d in self.__batch_data:
+            for key in d:
+                keys[key] = 1
+        for key in keys:
+            batch_json.data[key] = [None for _ in range(len(self.__batch_data))]
+        print("Keys = ", keys.__dict__)
+        for i in range(len(self.__batch_data)):
+            for key, value in self.__batch_data[i]:
+                batch_json_data[key][i] = value
+
         return batch_json_data
 
     def feature_json(self):

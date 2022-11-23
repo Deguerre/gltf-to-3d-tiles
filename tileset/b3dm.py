@@ -8,8 +8,7 @@ class B3dm(Content):
     def __init__(self, *args, batch_data=None, **kwargs) -> None:
         super(B3dm, self).__init__(*args, **kwargs)
         if batch_data is not None:
-            print("Batch data is ", batch_data)
-            self.__batch_data = batch_data
+            self.__batch_data = [batch_data]
         else:
             self.__batch_data = None
 
@@ -31,7 +30,7 @@ class B3dm(Content):
                 keys[key] = 1
         for key in keys:
             batch_json_data[key] = [None for _ in range(len(self.__batch_data))]
-        print("Keys = ", keys.__dict__)
+        print("Keys = ", keys)
         for i in range(len(self.__batch_data)):
             for key, value in self.__batch_data[i]:
                 batch_json_data[key][i] = value

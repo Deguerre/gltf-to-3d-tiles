@@ -27,7 +27,6 @@ class Tile:
         self.__children = []
         self.__gltf = gltf
         self.__extras = extras
-        self.__name = name
         self.__batch_data = batch_data
         # self.__parse_children()
 

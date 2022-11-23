@@ -5,13 +5,12 @@ class B3dm(Content):
     __MAGIC = b'b3dm'
     __HEADER_LEN = 28
 
-    def __init__(self, *args, **kwargs) -> None:
-        if kwargs.get("batch_data", None) is not None:
-            self.__batch_data = kwargs["batch_data"]
-            del kwargs["batch_data"]
+    def __init__(self, *args, batch_data=None, **kwargs) -> None:
+        super(B3dm, self).__init__(*args, **kwargs)
+        if batch_data is not None:
+            self.__batch_data = [batch_data]
         else:
             self.__batch_data = []
-        super(B3dm, self).__init__(*args, **kwargs)
 
     def _magic(self):
         return B3dm.__MAGIC

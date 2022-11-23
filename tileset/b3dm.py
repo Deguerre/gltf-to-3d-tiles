@@ -30,7 +30,7 @@ class B3dm(Content):
             for key in d:
                 keys[key] = 1
         for key in keys:
-            batch_json.data[key] = [None for _ in range(len(self.__batch_data))]
+            batch_json_data[key] = [None for _ in range(len(self.__batch_data))]
         print("Keys = ", keys.__dict__)
         for i in range(len(self.__batch_data)):
             for key, value in self.__batch_data[i]:

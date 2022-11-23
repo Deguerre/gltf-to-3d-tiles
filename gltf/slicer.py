@@ -45,8 +45,6 @@ class Slicer(Element):
 
     def __parse_node(self, node_index, *, matrix=utils.Matrix4(), extras=None):
         node = self.nodes[node_index]
-        print("Processing node ", node_index)
-        print("Processing node ", json.dumps(node.__dict__))
 
         if node.matrix:
             matrix = matrix.clone().multiply(utils.Matrix4(node.matrix))

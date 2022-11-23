@@ -23,14 +23,20 @@ def tileset(
             ),
         measure: Measure = typer.Option(
             Measure.METER, help="measure of attributes in gltf buffers"),
+        batch_data: Measure = typer.Option(
+            None, help="JSON file containing batch data"),
         up_direction: Axis = typer.Option(Axis.Y, "--up", help="up direction used in gltf coordinate system")):
     """split gltf model to 3d tiles"""
     start = timeit.default_timer()
 
+    if batch_data is not None:
+        with open(batch_data, encoding='utf-8') as f:
+            batch_data_table = json.load(f)
+
     if not fout:
         fout = Path(fin).parent / "tileset.json"
 
-    gltf_to_tileset(fin, fout, measure, up_direction)
+    gltf_to_tileset(fin, fout, measure, up_direction, batch_data)
     end = timeit.default_timer()
     typer.echo(f"completed in: {end - start}s")
 

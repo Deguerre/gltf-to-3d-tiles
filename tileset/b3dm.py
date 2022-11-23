@@ -5,9 +5,9 @@ class B3dm(Content):
     __MAGIC = b'b3dm'
     __HEADER_LEN = 28
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
+        super(B3dm, self).__init__(*args, **kwargs)
         self._batch_data = []
-        super().__init__(False, **kwargs)
 
     def _magic(self):
         return B3dm.__MAGIC
@@ -20,7 +20,7 @@ class B3dm(Content):
         return self._name + ".b3dm"
 
     def _batch_json(self):
-        var batch_json_data = super()._batch_json()
+        batch_json_data = super()._batch_json()
         return batch_json_data
 
     def feature_json(self):

@@ -6,7 +6,7 @@ import json
 class Content(ABC):
     VERSION = 1
 
-    def __init__(self, name: str, content: bytes, *, extras=None) -> None:
+    def __init__(self, name: str, content: bytes, extras=None) -> None:
         self._name = name
         # self._box = box
         self.content = content
@@ -33,7 +33,7 @@ class Content(ABC):
         pass
 
     def _batch_json(self):
-        var batch_json_data = {}
+        batch_json_data = {}
         if self.__extras:
             batch_json_data["extras"] = self.__extras
         if self.__extensions:
@@ -41,7 +41,7 @@ class Content(ABC):
         return batch_json_data
 
     def batch_json(self):
-        var batch_json_data = _self.batch_json()
+        batch_json_data = _self.batch_json()
         if len(batch_json_data) > 0:
             return json.dumps(batch_json_data, separators=(",", ":")).encode("utf-8")
         else:

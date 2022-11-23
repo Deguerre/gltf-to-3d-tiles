@@ -70,7 +70,7 @@ def split_group(source):
     return groups
 
 
-def gltf_to_tileset(fin, fout, measure: Measure = Measure.METER, up_direction: Axis = Axis.Y, batch_data_table: JSON = None):
+def gltf_to_tileset(fin, fout, measure: Measure = Measure.METER, up_direction: Axis = Axis.Y, batch_data_table = None):
     Gltf.up_direction = up_direction
     gltf, buffers = io.read_gltf(fin)
     Path(fout).parent.mkdir(parents=True, exist_ok=True)

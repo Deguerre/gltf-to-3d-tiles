@@ -15,7 +15,7 @@ class Measure(str, Enum):
 class Tile:
     measure = Measure.METER
 
-    def __init__(self, *, content_id=None, refine=None, matrix=Matrix4(), box=Box3(), instance_box=Box3(), instances_matrices=None, gltf=None, extras=None) -> None:
+    def __init__(self, *, content_id=None, refine=None, matrix=Matrix4(), box=Box3(), instance_box=Box3(), instances_matrices=None, gltf=None, extras=None, name=None) -> None:
         self.refine = refine
         self.__content_id = content_id
         # self.__content = None
@@ -26,6 +26,7 @@ class Tile:
         self.__children = []
         self.__gltf = gltf
         self.__extras = extras
+        self.__name = name
         # self.__parse_children()
 
     def add_child(self, tile):

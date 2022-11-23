@@ -29,6 +29,7 @@ class Slicer(Element):
         super().__init__(gltf, **kwargs)
         self.__matrices = [[] for _ in range(len(self.meshes))]
         self.__extras = [[] for _ in range(len(self.meshes))]
+        self.__names = [None for _ in range(len(self.meshes))]
         scene = 0 if self.scene is None else self.scene
         root = self.scenes[scene].nodes[0]
         self.__parse_node(root)
@@ -58,6 +59,9 @@ class Slicer(Element):
         if node.extras:
             extras = node.extras
 
+        if node.name:
+            self.__names[node.mesh] = node.name
+
         if node.mesh is not None:
             self.__matrices[node.mesh].append(matrix)
             if extras is not None:
@@ -73,11 +77,14 @@ class Slicer(Element):
     def get_extras(self, mesh_id):
         return self.__extras[mesh_id]
 
+    def get_name(self, mesh_id):
+        return self.__names[mesh_id]
+
     @property
     def meshes_count(self):
         return len(self.meshes)
 
-    def slice_primitives(self, primitives: list):
+    def slice_primitives(self, mesh_id:int, primitives: list):
         accessor_indices = self.__get_accessor_indices(primitives)
         material_indices = self.__get_material_indices(primitives)
         texture_indices = self.__get_texture_indices(material_indices)
@@ -86,7 +93,7 @@ class Slicer(Element):
         buffer_view_indices = list(set([
             self.accessors[id].buffer_view for id in accessor_indices] + [
             self.images[id].buffer_view for id in image_indices if self.images[id].buffer_view is not None]))
-        return Glb([self.__get_buffer(buffer_view_indices)], meshes=self.__get_meshes(primitives, accessor_indices, material_indices), accessors=self.__get_accessors(accessor_indices, buffer_view_indices),
+        return Glb([self.__get_buffer(buffer_view_indices)], name=self.get_name(mesh_id), meshes=self.__get_meshes(primitives, accessor_indices, material_indices), accessors=self.__get_accessors(accessor_indices, buffer_view_indices),
                    buffer_views=self.__get_buffer_views(buffer_view_indices), materials=self.__get_materials(material_indices, image_indices), textures=self.__get_textures(len(texture_indices)), images=self.__get_images(image_indices, buffer_view_indices), samplers=self.__get_samplers(len(sampler_indices)))
 
     def __get_images(self, image_indices, buffer_view_indices):
@@ -122,7 +129,7 @@ class Slicer(Element):
         return [self.textures[id].sampler for id in texture_indices if self.textures[id].sampler is not None]
 
     def slice_mesh(self, mesh_id: int):
-        return self.slice_primitives(self.meshes[mesh_id].primitives)
+        return self.slice_primitives(mesh_id, self.meshes[mesh_id].primitives)
 
     def __get_accessor_indices(self, primitives):
         ret = set()

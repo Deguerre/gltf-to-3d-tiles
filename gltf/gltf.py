@@ -19,17 +19,17 @@ class Gltf(Element):
         "version": "2.0",
         "copyright": "2019 (p) jason"
     }
-    SCENES = [Element(nodes=[0], name="Scene")]
     up_direction = Axis.Y
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, name=None, **kwargs) -> None:
 
         # set default members
         self.asset = Gltf.ASSET
-        self.scenes = Gltf.SCENES
+        if name is None:
+            name = "Scene"
+        self.scenes = [Element(nodes=[0], name=name)]
         self.scene = 0
         self.nodes = [Element(mesh=0, matrix=Z_UP_TO_Y_UP_MATRIX)
-                      ] if Gltf.up_direction is Axis.Y else [Element(mesh=0)]
 
         super().__init__(False, **kwargs)
 
@@ -41,9 +41,9 @@ class Glb:
     CHUNK_JSON = b'JSON'
     CHUNK_BIN = b'BIN'.ljust(4, b'\0')
 
-    def __init__(self, buffers, **kwargs) -> None:
+    def __init__(self, buffers, name=None, **kwargs) -> None:
         self.buffers = buffers
-        self.__json = Gltf(**kwargs)
+        self.__json = Gltf(name, **kwargs)
         self.__json.buffers = [Element(byte_length=self.buffer_len)]
 
     @property

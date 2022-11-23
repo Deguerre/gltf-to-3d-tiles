@@ -121,7 +121,7 @@ class Tile:
         self.__gltf = gltf
         self.__extras = extras
         self.__name = name
-        self.__batch_data = Tile.BATCH_DATA[name]
+        self.__batch_data = Tile.BATCH_DATA.get(name, None)
         # self.__parse_children()
 
     def add_child(self, tile):

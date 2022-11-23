@@ -3,6 +3,7 @@ import utils
 from .element import Element
 import sys
 
+import json
 
 def get__attribute(obj, name):
     ret = []

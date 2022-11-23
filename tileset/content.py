@@ -6,11 +6,12 @@ import json
 class Content(ABC):
     VERSION = 1
 
-    def __init__(self, name: str, content: bytes, extras=None) -> None:
+    def __init__(self, name: str, content: bytes, extras=None, extensions=None) -> None:
         self._name = name
         # self._box = box
         self.content = content
         self.__extras = extras
+        self.__extensions = extensions
 
     @abstractmethod
     def _magic(self):

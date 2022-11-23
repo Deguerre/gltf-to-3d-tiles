@@ -41,7 +41,7 @@ class Content(ABC):
         return batch_json_data
 
     def batch_json(self):
-        batch_json_data = self.batch_json()
+        batch_json_data = self._batch_json()
         if len(batch_json_data) > 0:
             return json.dumps(batch_json_data, separators=(",", ":")).encode("utf-8")
         else:

@@ -33,12 +33,22 @@ class Content(ABC):
         pass
 
     def _batch_json(self):
+        var batch_json_data = {}
         if self.__extras:
-            return json.dumps({"extras": self.__extras}, separators=(",", ":")).encode("utf-8")
-        return b''
+            batch_json_data["extras"] = self.__extras
+        if self.__extensions:
+            batch_json_data["extensions"] = self.__extensions
+        return batch_json_data
+
+    def batch_json(self):
+        var batch_json_data = _self.batch_json()
+        if len(batch_json_data) > 0:
+            return json.dumps(batch_json_data, separators=(",", ":")).encode("utf-8")
+        else:
+            return b''
 
     def _batch_json_len(self):
-        return utils.padded_len((len(self._batch_json())), padding=8)
+        return utils.padded_len((len(self.batch_json())), padding=8)
 
     def _feature_json_len(self):
         return utils.padded_len(len(self.feature_json()) + self._header_len(), padding=8) - self._header_len()
@@ -74,7 +84,7 @@ class Content(ABC):
         ret = bytearray(feature_json.ljust(self._feature_json_len(), b' '))
         feature_bytes = self._feature_bin()
         ret += feature_bytes
-        ret += bytearray(self._batch_json().ljust(self._batch_json_len(), b' '))
+        ret += bytearray(self.batch_json().ljust(self._batch_json_len(), b' '))
         ret += self.content
         byteLen = self._byte_len()
         padding = utils.padded_len(byteLen) - byteLen

@@ -134,7 +134,7 @@ class Slicer(Element):
         self.buffer_views.append(buffer_view)
         
         accessor = Element(
-            name = '_BATCHID_' + batch_id,
+            name = '_BATCHID_' + str(batch_id),
             component_type = 5123, # UNSIGNED_SHORT
             count = vertices_count,
             min = [batch_id],

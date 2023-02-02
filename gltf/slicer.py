@@ -125,7 +125,7 @@ class Slicer(Element):
 
         buffer_view = Element(
             buffer = buffer_id,
-            byte_length = len(buffer_data),
+            byte_length = len(buffer),
             byte_offset = 0,
             byte_stride = 2,
             target = 34962, # ARRAY_BUFFER

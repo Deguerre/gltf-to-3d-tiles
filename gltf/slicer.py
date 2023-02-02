@@ -113,7 +113,7 @@ class Slicer(Element):
                 samplers=self.__get_samplers(len(sampler_indices))
          )
 
-    def __make_batchid_for_primitive(p):
+    def __make_batchid_for_primitive(self, p):
         vertices_accessor = self.accessors[p.attributes.POSITION]
         vertices_count = vertices_accessor.count
 

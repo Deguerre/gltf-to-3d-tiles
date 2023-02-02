@@ -143,7 +143,7 @@ class Slicer(Element):
             buffer_view = buffer_view_id,
             byte_offset = 0
         )
-        accessor_id = len(self.accessor)
+        accessor_id = len(self.accessors)
         self.accessors.append(accessor)
 
         p.attributes._BATCHID = accessor_id

@@ -83,7 +83,7 @@ def gltf_to_tileset(fin, fout, measure: Measure = Measure.METER, up_direction: A
             instance_box = gltf_slicer.get_bounding_box(id),
             instances_matrices = gltf_slicer.get_matrices(id),
             matrix = Matrix4(),
-            gltf = gltf_slicer.slice_mesh(id, make_matchid).as_bytes(),
+            gltf = gltf_slicer.slice_mesh(id, make_batchid).as_bytes(),
             batch_data = batch_data,
             extras = gltf_slicer.get_extras(id)
         )

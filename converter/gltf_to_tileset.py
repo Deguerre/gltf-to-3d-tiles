@@ -75,8 +75,22 @@ def gltf_to_tileset(fin, fout, measure: Measure = Measure.METER, up_direction: A
     Path(fout).parent.mkdir(parents=True, exist_ok=True)
     gltf_slicer = Slicer(gltf, buffers=buffers)
     Tile.measure = measure
-    tiles = list(map(lambda id: Tile(content_id=id, instance_box=gltf_slicer.get_bounding_box(
-        id), instances_matrices=gltf_slicer.get_matrices(id), matrix=Matrix4(), gltf=gltf_slicer.slice_mesh(id).as_bytes(), batch_data=batch_data_table.get(gltf_slicer.get_name(id), None), extras=gltf_slicer.get_extras(id)), range(gltf_slicer.meshes_count)))
+    def make_tile(id):
+        batch_data = batch_data_table.get(gltf_slicer.get_name(id), None)
+        make_batchid = batch_data != None
+        return Tile(
+            content_id = id,
+            instance_box = gltf_slicer.get_bounding_box(id),
+            instances_matrices = gltf_slicer.get_matrices(id),
+            matrix = Matrix4(),
+            gltf = gltf_slicer.slice_mesh(id, make_matchid).as_bytes(),
+            batch_data = batch_data,
+            extras = gltf_slicer.get_extras(id)
+        )
+    tiles = list(map(lambda id:
+
+,
+        range(gltf_slicer.meshes_count)))
     tiles.sort(key=lambda tile: tile.box_world.diagonal)
     grouped_tiles = split_group(tiles)
     root = build_bvh(grouped_tiles)

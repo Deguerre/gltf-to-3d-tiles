@@ -31,7 +31,7 @@ class Slicer(Element):
         self.__matrices = [[] for _ in range(len(self.meshes))]
         self.__extras = [[] for _ in range(len(self.meshes))]
         self.__names = [None for _ in range(len(self.meshes))]
-        self.__batchids = []
+        self.__batch_ids = []
         scene = 0 if self.scene is None else self.scene
         for node in self.scenes[scene].nodes:
             self.__parse_node(node)
@@ -147,6 +147,7 @@ class Slicer(Element):
         self.accessors.append(accessor)
 
         p.attributes._BATCHID = accessor_id
+        self.__batch_ids.append(batch_id)
 
     def __get_images(self, image_indices, buffer_view_indices):
         ret = [self.images[id].clone() for id in image_indices]

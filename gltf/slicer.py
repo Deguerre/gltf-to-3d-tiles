@@ -31,6 +31,7 @@ class Slicer(Element):
         self.__matrices = [[] for _ in range(len(self.meshes))]
         self.__extras = [[] for _ in range(len(self.meshes))]
         self.__names = [None for _ in range(len(self.meshes))]
+        self.__batchids = []
         scene = 0 if self.scene is None else self.scene
         for node in self.scenes[scene].nodes:
             self.__parse_node(node)
@@ -86,6 +87,11 @@ class Slicer(Element):
         return len(self.meshes)
 
     def slice_primitives(self, mesh_id:int, primitives: list, make_batchid: bool):
+        if make_batchid:
+            for p in primitives:
+                if p.attributes._BATCHID is None:
+                    self.__make_batchid_for_primitive(p)
+
         accessor_indices = self.__get_accessor_indices(primitives)
         material_indices = self.__get_material_indices(primitives)
         texture_indices = self.__get_texture_indices(material_indices)
@@ -106,6 +112,41 @@ class Slicer(Element):
                 images=self.__get_images(image_indices, buffer_view_indices),
                 samplers=self.__get_samplers(len(sampler_indices))
          )
+
+    def __make_batchid_for_primitive(p):
+        vertices_accessor = self.accessors[p.attributes.POSITION]
+        vertices_count = vertices_accessor.count
+
+        batch_id = len(self.__batch_ids)
+
+        buffer_id = len(self.buffers)
+        buffer = batch_id.to_bytes(2, 'little') * vertices_count
+        self.buffers.append(buffer)
+
+        buffer_view = Element(
+            buffer = buffer_id,
+            byte_length = len(buffer_data),
+            byte_offset = 0,
+            byte_stride = 2,
+            target = 34962, # ARRAY_BUFFER
+        )
+        buffer_view_id = len(self.buffer_views)
+        self.buffer_views.append(buffer_view)
+        
+        accessor = Element(
+            name = '_BATCHID_' + batch_id,
+            component_type = 5123, # UNSIGNED_SHORT
+            count = vertices_count,
+            min = [batch_id],
+            max = [batch_id],
+            type = 'SCALAR',
+            buffer_view = buffer_view_id,
+            byte_offset = 0
+        )
+        accessor_id = len(self.accessor)
+        self.accessors.append(accessor)
+
+        p.attributes._BATCHID = accessor_id
 
     def __get_images(self, image_indices, buffer_view_indices):
         ret = [self.images[id].clone() for id in image_indices]

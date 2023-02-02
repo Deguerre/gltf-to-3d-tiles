@@ -95,7 +95,7 @@ class Slicer(Element):
         accessor_view_indices = [self.accessors[id].buffer_view for id in accessor_indices]
         image_view_indices = [self.images[id].buffer_view for id in image_indices
                                 if self.images[id].buffer_view is not None]
-        buffer_view_indices = list(set(accessor_view_indices + buffer_view_indices))
+        buffer_view_indices = list(set(accessor_view_indices + image_view_indices))
         return Glb([self.__get_buffer(buffer_view_indices)],
                 scene_name=self.get_name(mesh_id),
                 meshes=self.__get_meshes(primitives, accessor_indices, material_indices),

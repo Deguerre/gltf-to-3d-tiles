@@ -87,10 +87,7 @@ def gltf_to_tileset(fin, fout, measure: Measure = Measure.METER, up_direction: A
             batch_data = batch_data,
             extras = gltf_slicer.get_extras(id)
         )
-    tiles = list(map(lambda id:
-
-,
-        range(gltf_slicer.meshes_count)))
+    tiles = list(map(make_tile, range(gltf_slicer.meshes_count)))
     tiles.sort(key=lambda tile: tile.box_world.diagonal)
     grouped_tiles = split_group(tiles)
     root = build_bvh(grouped_tiles)
